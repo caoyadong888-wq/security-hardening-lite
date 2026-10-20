@@ -1,0 +1,6 @@
+# Managed by the users role. Operators use their own password.
+{% if ops_passwordless_sudo | bool %}
+%{{ ops_group }} ALL=(ALL) NOPASSWD: ALL
+{% else %}
+%{{ ops_group }} ALL=(ALL) ALL
+{% endif %}

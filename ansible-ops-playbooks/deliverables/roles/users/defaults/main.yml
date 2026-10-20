@@ -1,0 +1,4 @@
+---
+ops_group: ops
+ops_passwordless_sudo: false
+ops_users: []

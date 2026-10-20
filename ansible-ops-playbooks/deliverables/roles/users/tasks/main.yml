@@ -1,0 +1,50 @@
+---
+- name: Refuse to continue when no operator is defined
+  ansible.builtin.fail:
+    msg: >-
+      ops_users is empty. Add your own account and public key before
+      the SSH role disables password login.
+  when: ops_users | length == 0
+
+- name: Create the operator group
+  ansible.builtin.group:
+    name: "{{ ops_group }}"
+    state: present
+
+- name: Create operator accounts
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    comment: "{{ item.comment }}"
+    shell: "{{ item.shell | default('/bin/bash') }}"
+    groups: "{{ ops_group }}"
+    append: true
+    create_home: true
+    state: present
+  loop: "{{ ops_users }}"
+
+- name: Create the operator SSH directory
+  ansible.builtin.file:
+    path: "/home/{{ item.name }}/.ssh"
+    state: directory
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: "0700"
+  loop: "{{ ops_users }}"
+
+- name: Install one public key per operator
+  ansible.builtin.copy:
+    dest: "/home/{{ item.name }}/.ssh/authorized_keys"
+    content: "{{ item.ssh_key }}\n"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: "0600"
+  loop: "{{ ops_users }}"
+
+- name: Grant sudo through a validated sudoers drop-in
+  ansible.builtin.template:
+    src: ops.sudoers.j2
+    dest: /etc/sudoers.d/ops
+    owner: root
+    group: root
+    mode: "0440"
+    validate: /usr/sbin/visudo -cf %s

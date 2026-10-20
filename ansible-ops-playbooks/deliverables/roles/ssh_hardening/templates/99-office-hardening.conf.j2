@@ -1,0 +1,14 @@
+# Managed by the ssh_hardening role.
+# This drop-in is read by OpenSSH on Debian 12 and Ubuntu 22.04 or newer.
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+PermitRootLogin no
+PubkeyAuthentication yes
+AllowGroups {{ ssh_allow_groups }}
+MaxAuthTries {{ ssh_max_auth_tries }}
+LoginGraceTime 30
+ClientAliveInterval {{ ssh_client_alive_interval }}
+ClientAliveCountMax 2
+X11Forwarding no
+AllowTcpForwarding no
+AllowAgentForwarding no

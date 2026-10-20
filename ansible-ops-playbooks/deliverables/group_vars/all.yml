@@ -1,0 +1,14 @@
+---
+ansible_user: deploy
+ansible_python_interpreter: /usr/bin/python3
+ops_group: ops
+ops_passwordless_sudo: false
+ops_users:
+  - name: deploy
+    comment: Deploy operator
+    shell: /bin/bash
+    ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPCsvcPzeqwT7zEvlezkbpAByzTBMMxMdlk/WA0N1ZOc deploy@example.com"
+ssh_service_name: ssh
+ssh_allow_groups: ops
+ssh_max_auth_tries: 3
+ssh_client_alive_interval: 300

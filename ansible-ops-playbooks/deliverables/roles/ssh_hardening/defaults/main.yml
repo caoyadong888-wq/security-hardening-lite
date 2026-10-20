@@ -1,0 +1,5 @@
+---
+ssh_service_name: ssh
+ssh_allow_groups: ops
+ssh_max_auth_tries: 3
+ssh_client_alive_interval: 300

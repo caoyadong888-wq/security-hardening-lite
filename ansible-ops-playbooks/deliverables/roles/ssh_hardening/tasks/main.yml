@@ -1,0 +1,21 @@
+---
+- name: Ensure OpenSSH server is installed
+  ansible.builtin.apt:
+    name: openssh-server
+    state: present
+
+- name: Install the office sshd drop-in
+  ansible.builtin.template:
+    src: 99-office-hardening.conf.j2
+    dest: /etc/ssh/sshd_config.d/99-office-hardening.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload ssh
+
+- name: Validate sshd before reloading
+  ansible.builtin.command: sshd -t
+  changed_when: false
+
+- name: Reload ssh now that the config parses
+  ansible.builtin.meta: flush_handlers

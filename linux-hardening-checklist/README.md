@@ -47,3 +47,8 @@ A text editor. No packages are required to read the lite checklist.
 一个文本编辑器。阅读精简清单不需要额外软件包。
 
 Full version: GUMROAD_URL
+
+## Delivery time / 交付时间
+
+- Lite (this repo): free, available now. / 精简版（本仓库）：免费，立即可用。
+- Full version: instant download after purchase (GUMROAD_URL). / 完整版：购买后即时下载（GUMROAD_URL）。
